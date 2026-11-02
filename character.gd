@@ -2,9 +2,9 @@ extends CharacterBody2D
 
 @onready var _animation_player : AnimatedSprite2D = %AnimatedSprite2D
 
-#J02
+# J02 - door een var te exporteren krijgen we hem te zien in de editor en kunnen we hem ook live aanpassen
 @export_range(-1000,0, 50, "Hoe hoog het karakter springt -1000 is het hoogst") var jump_velocity: float = -400.0
-#W02
+# W02 - een float betekend een getal met cijfers achter de komma
 @export_range(0,500, 50, "Hoe snel het karakter loopt") var walk_speed :float = 100.0
 
 func _ready(): 
@@ -44,32 +44,30 @@ func _process(delta: float) -> void:
 	# personage te laten bewegen.	
 	move_and_slide()
 
-#F01
-## Hier zorgen we dat de speler omlaag valt als hij in de lucht is.
-## De delta zorgt ervoor dat dit geleidelijk gebeurt
+# F01 - Hier zorgen we dat de speler omlaag valt als hij in de lucht is.
+# De delta zorgt ervoor dat dit geleidelijk gebeurt
 func fall(delta : float) -> void:
-	#F02
+	# F02 - Velocity is de snelheid waarmee ons personage beweegt
 	velocity.y += get_gravity().y * delta
 
-#J01
-## De jump functie gebeurt elke keer als iemand op de jump knop klikt
+# J01 - De jump functie gebeurt elke keer als iemand op de jump knop klikt
 func jump()->void:
-	#J03
+	# J03 - Omdat we de jump_velocity als variabele hebben aangemaakt in J02, 
+	# hoeven we hier alleen de naam te gebruiken
 	velocity.y = jump_velocity
 	
-	#J04
+	# J04 - Net als jump_velocity, is de _animation_player bovenaan het script al aangemaakt, de animaties ook.
 	_animation_player.play("Jump")
 
-#W01
-## Als de speler links of rechts indrukt moet het karakter aan lopen.
+# W01 - Als de speler links of rechts indrukt moet het karakter aan lopen.
 func walk(input_direction: Vector2)->void:
-	#W03
+	#W03 - We gebruiken alleen de x as, want we lopen niet van onder naar boven, alleen van links naar rechts
 	velocity.x = input_direction.x * walk_speed
 	
 	#W04
 	_animation_player.play("Walk")
 	
-	#W05
+	#W05 - de if/else zorgt dat ALS we naar links gaan lopen een regel code wordt uitgevoerd en anders de andere.
 	if input_direction.x < 0:
 		_animation_player.flip_h = true
 	else:
