@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://d6j8v5nv1vy0"]
+
+[ext_resource type="Script" uid="uid://clwo7qnvucb5u" path="res://chest.gd" id="1_8uwsg"]
+[ext_resource type="Texture2D" uid="uid://j862yhyevfw4" path="res://assets/Tilemap/monochrome_tilemap_transparent_packed.png" id="1_twpm2"]
+[ext_resource type="PackedScene" uid="uid://df5xgf7myeo0d" path="res://celebration_particles.tscn" id="3_bp1or"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21r24"]
+size = Vector2(16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8uwsg"]
+atlas = ExtResource("1_twpm2")
+region = Rect2(144, 304, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bp1or"]
+atlas = ExtResource("1_twpm2")
+region = Rect2(144, 304, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trlyu"]
+atlas = ExtResource("1_twpm2")
+region = Rect2(160, 304, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8u1yx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8uwsg")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bp1or")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trlyu")
+}],
+"loop": 0,
+"name": &"open",
+"speed": 5.0
+}]
+
+[node name="Chest" type="Area2D" unique_id=1135067815]
+process_mode = 3
+collision_layer = 8
+script = ExtResource("1_8uwsg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=355711248]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_21r24")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1111351630]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_8u1yx")
+animation = &"open"
+autoplay = "default"
+
+[node name="celebration_particles" parent="." unique_id=487724337 instance=ExtResource("3_bp1or")]
+unique_name_in_owner = true
+emitting = false
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

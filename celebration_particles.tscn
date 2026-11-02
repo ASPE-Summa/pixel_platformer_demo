@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://df5xgf7myeo0d"]
+
+[ext_resource type="Texture2D" uid="uid://cn57f7qs2eby8" path="res://assets/Tiles/Transparent/tile_0001.png" id="1_yw3vd"]
+
+[sub_resource type="Curve" id="Curve_8u1yx"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75213677, 0.79775286), 0.0, 0.0, 0, 0, Vector2(0.9059829, 0.5842697), 0.0, 0.0, 0, 0, Vector2(1, 0.011235952), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[node name="celebration_particles" type="CPUParticles2D" unique_id=487724337]
+amount = 40
+texture = ExtResource("1_yw3vd")
+direction = Vector2(0, -1)
+spread = 50.0
+gravity = Vector2(0, 50)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+angular_velocity_min = -300.0
+angular_velocity_max = 300.0
+scale_amount_curve = SubResource("Curve_8u1yx")

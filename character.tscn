@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlgw48gx342a6"]
+[gd_scene format=3 uid="uid://dlgw48gx342a6"]
 
 [ext_resource type="Texture2D" uid="uid://yy8mwr7mk5h7" path="res://assets/Tilemap/monochrome_tilemap.png" id="1_glpr6"]
 [ext_resource type="Script" uid="uid://bsfc7mcyll58o" path="res://character.gd" id="1_pjt0s"]
+[ext_resource type="Texture2D" uid="uid://j862yhyevfw4" path="res://assets/Tilemap/monochrome_tilemap_transparent_packed.png" id="3_wa5vi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pjt0s"]
 atlas = ExtResource("1_glpr6")
@@ -11,13 +12,21 @@ region = Rect2(0, 238, 16, 16)
 atlas = ExtResource("1_glpr6")
 region = Rect2(68, 238, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfnr8"]
+atlas = ExtResource("3_wa5vi")
+region = Rect2(16, 224, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_px5sl"]
+atlas = ExtResource("3_wa5vi")
+region = Rect2(32, 224, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_qi5as"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pjt0s")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle",
 "speed": 5.0
 }, {
@@ -25,8 +34,19 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0qfo5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfnr8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px5sl")
+}],
+"loop": 1,
+"name": &"Walk",
 "speed": 5.0
 }]
 
@@ -36,29 +56,34 @@ size = Vector2(9, 10)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pjt0s"]
 size = Vector2(10, 10)
 
-[node name="Character" type="CharacterBody2D"]
+[node name="Character" type="CharacterBody2D" unique_id=1067563727]
 texture_filter = 1
+collision_mask = 9
 script = ExtResource("1_pjt0s")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=613739948]
 unique_name_in_owner = true
 texture_filter = 1
 texture_repeat = 1
 position = Vector2(-8, -8)
 sprite_frames = SubResource("SpriteFrames_qi5as")
-animation = &"Jump"
+animation = &"Walk"
+autoplay = "Idle"
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=121066073]
 position = Vector2(-0.5, 3)
 shape = SubResource("RectangleShape2D_glpr6")
 
-[node name="HurtBox" type="Area2D" parent="."]
+[node name="HurtBox" type="Area2D" parent="." unique_id=860347706]
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1679862466]
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_pjt0s")
 debug_color = Color(0.964863, 0.12679201, 0.36054143, 0.41960785)
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1896835235]
+
 [connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
